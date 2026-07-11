@@ -177,7 +177,7 @@ export function processSingleCommandResponse(
   try {
     responseObj = JSON.parse(response);
     if (!isObjectLike(responseObj)) throw new Error();
-  } catch (err) {
+  } catch {
     throw new ResponseError('Could not parse response', response, command);
   }
   if (

@@ -1,15 +1,13 @@
-import chai, { expect } from 'chai';
+import { use, expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinonChai from 'sinon-chai';
-import chaiSubset from 'chai-subset';
 import dgram from 'dgram';
 import net from 'net';
 
 import * as config from './config';
 
-chai.use(chaiAsPromised);
-chai.use(chaiSubset);
-chai.use(sinonChai);
+use(chaiAsPromised);
+use(sinonChai);
 
 export { expect };
 
@@ -26,7 +24,7 @@ export function retry(
   retries = 3,
 ): Promise<unknown> {
   return fn().catch((e) =>
-    retries <= 0 ? Promise.reject(e) : retry(fn, retries - 1),
+    retries <= 0 ? Promise.reject(e as Error) : retry(fn, retries - 1),
   );
 }
 
@@ -51,7 +49,7 @@ export async function createUnresponsiveDevice(
           typeof address === 'string' ||
           !('port' in address)
         ) {
-          reject();
+          reject(new Error('Could not determine server address'));
           return;
         }
         port = address.port;

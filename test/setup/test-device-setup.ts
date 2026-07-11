@@ -222,11 +222,13 @@ export async function testDeviceCleanup(): Promise<void> {
 
   testDevices.devices.forEach((testDevice) => {
     const device = devices.find((dev) => {
-      if (dev.model.substr(0, 5).toLowerCase() !== testDevice.model)
+      if (dev.model.slice(0, 5).toLowerCase() !== testDevice.model) {
         return false;
-      return !(testDevice.hardwareVersion != null &&
-        testDevice.hardwareVersion !== dev.hardwareVersion);
-
+      }
+      return !(
+        testDevice.hardwareVersion != null &&
+        testDevice.hardwareVersion !== dev.hardwareVersion
+      );
     });
 
     if (device) {

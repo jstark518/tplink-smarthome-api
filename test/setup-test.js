@@ -45,7 +45,7 @@ describe('Test Environment Setup', function () {
               const tso = { ...testSendOptions };
               delete tso.name;
               const device = await testDevice.getDevice(undefined, tso);
-              expect(device.defaultSendOptions).to.containSubset(tso);
+              expect(device.defaultSendOptions).to.deep.include(tso);
             });
           });
         });

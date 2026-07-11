@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import type { MarkOptional, MarkRequired } from 'ts-essentials';
-import type { Client, Plug } from '../../src';
-import type { AnyDevice } from '../../src/client';
+import type { Client, Plug, AnyDevice } from '../../src';
 import { isObjectLike } from '../../src/utils';
 
 export type TestDevice = {
@@ -151,12 +150,10 @@ export function testDeviceDecorator(
             alias: string;
           }>
         > {
-          if (
-            !(
-              'getOtherChildren' in testDevice &&
-              testDevice.getOtherChildren !== undefined
-            )
-          ) {
+          if (!(
+            'getOtherChildren' in testDevice &&
+            testDevice.getOtherChildren !== undefined
+          )) {
             throw new Error();
           }
           return Promise.all(

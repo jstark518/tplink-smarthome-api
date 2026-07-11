@@ -8,10 +8,13 @@
  * - TEST_DISCOVERY_MAC_ALLOW - CSV list of device MAC addresses to use for testing. If not specified all MACs will be valid. default: ''
  */
 
-import dotenv from 'dotenv';
+import { existsSync } from 'node:fs';
 import log from 'loglevel';
 
-dotenv.config();
+// Load .env if present (built-in replacement for dotenv; Node >= 20.12).
+if (existsSync('.env')) {
+  process.loadEnvFile('.env');
+}
 
 const envIsTrue = function envIsTrue(value: unknown): boolean {
   return !(value == null || value === 0 || value === '0' || value === 'false');

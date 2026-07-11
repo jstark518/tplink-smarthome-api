@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "before:init": ["npm test"],
+    "after:bump": ["npm run docs", "git add -A docs"]
+  },
+  "git": {
+    "commitMessage": "chore(release): ${version}",
+    "tagName": "v${version}",
+    "requireCleanWorkingDir": false,
+    "commitArgs": ["-S"],
+    "tagArgs": ["-s"],
+    "push": true
+  },
+  "npm": {
+    "publish": false
+  },
+  "github": {
+    "release": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "infile": "CHANGELOG.md",
+      "preset": { "name": "conventionalcommits" }
+    }
+  }
+}

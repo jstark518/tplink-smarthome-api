@@ -35,8 +35,7 @@ type BulbEmeterResponse = {
 type DiscoveryResponse = SysinfoResponse & EmeterResponse;
 
 type AnyDeviceOptions =
-  | ConstructorParameters<typeof Bulb>[0]
-  | ConstructorParameters<typeof Plug>[0];
+  ConstructorParameters<typeof Bulb>[0] | ConstructorParameters<typeof Plug>[0];
 
 export type AnyDeviceOptionsConstructable =
   | MarkOptional<ConstructorParameters<typeof Plug>[0], 'client' | 'sysInfo'>
@@ -426,7 +425,8 @@ class Client extends EventEmitter {
    * Creates a {@link Plug} or {@link Bulb} from passed in sysInfo or after querying device to determine type.
    *
    * See [Device constructor]{@link Device}, [Bulb constructor]{@link Bulb}, [Plug constructor]{@link Plug} for valid options.
-   * @param   deviceOptions - passed to [Device constructor]{@link Device}
+   * @param deviceOptions - passed to [Device constructor]{@link Device}
+   * @param sendOptions - passed to [Device constructor]{@link Device}
    * @throws {@link ResponseError}
    */
   async getDevice(
@@ -456,6 +456,7 @@ class Client extends EventEmitter {
    * Creates device corresponding to the provided `sysInfo`.
    *
    * See [Device constructor]{@link Device}, [Bulb constructor]{@link Bulb}, [Plug constructor]{@link Plug} for valid options
+   * @param  sysInfo
    * @param  deviceOptions - passed to device constructor
    * @throws Error
    */

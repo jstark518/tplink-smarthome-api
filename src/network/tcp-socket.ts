@@ -95,11 +95,13 @@ export default class TcpSocket extends TplinkSocket {
             );
             return;
           }
-          const expectedResponseLen = deviceDataBuf.slice(0, 4).readInt32BE();
+          const expectedResponseLen = deviceDataBuf
+            .subarray(0, 4)
+            .readInt32BE();
           const actualResponseLen = deviceDataBuf.length - 4;
 
           if (actualResponseLen >= expectedResponseLen) {
-            decryptedMsg = decrypt(deviceDataBuf.slice(4)).toString('utf8');
+            decryptedMsg = decrypt(deviceDataBuf.subarray(4)).toString('utf8');
             this.logDebug(
               `: socket:data: segment:${segmentCount} ${actualResponseLen}/${expectedResponseLen} [${replaceControlCharacters(
                 decryptedMsg,

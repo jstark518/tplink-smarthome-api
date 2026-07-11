@@ -88,9 +88,9 @@ export default class UdpSocket extends TplinkSocket {
           resolve(decryptedMsg);
         } catch (err) {
           this.log.error(
-            `Error processing UDP message: From:[%j] SO_RCVBUF:[%d]${'\n'}  msg:[%o]${'\n'}  decrypted:[${replaceControlCharacters(
-              decryptedMsg,
-            )}]`,
+            `Error processing UDP message: From:[%j] SO_RCVBUF:[%d]
+  msg:[%o]
+  decrypted:[${replaceControlCharacters(decryptedMsg)}]`,
             rinfo,
             socket.getRecvBufferSize(),
             msg,

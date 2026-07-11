@@ -132,7 +132,7 @@ async function sendCommand(
 async function sendCommandDynamic(
   host: string,
   port: number | undefined,
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   command: Exclude<keyof PickProperties<AnyDevice, Function>, undefined>,
   commandParams: Array<boolean | number | string> = [],
   sendOptions?: SendOptions,
