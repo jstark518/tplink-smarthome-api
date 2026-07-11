@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events';
-import castArray from 'lodash.castarray';
 import type log from 'loglevel';
 
 import type { BulbSysinfo } from '../bulb';
@@ -10,11 +9,12 @@ import UdpConnection from '../network/udp-connection';
 import type { PlugSysinfo } from '../plug';
 import type { RealtimeNormalized } from '../shared/emeter';
 import {
+  castArray,
   extractResponse,
+  type HasErrCode,
   isObjectLike,
   processResponse,
   processSingleCommandResponse,
-  type HasErrCode,
 } from '../utils';
 import Netif from './netif';
 
@@ -328,6 +328,7 @@ abstract class Device extends EventEmitter {
   /**
    * Sends `payload` to device (using {@link Client#send})
    * @param   payload - payload to send to device, if object, converted to string via `JSON.stringify`
+   * @param sendOptions
    * @returns parsed JSON response
    */
   async send(
@@ -395,13 +396,13 @@ abstract class Device extends EventEmitter {
     const payloadString = JSON.stringify(payload);
 
     const response = await this.send(payloadString, sendOptions);
-    const results = processSingleCommandResponse(
+
+    return processSingleCommandResponse(
       moduleName,
       methodName,
       payloadString,
       response,
     );
-    return results;
   }
 
   /**
@@ -448,11 +449,8 @@ abstract class Device extends EventEmitter {
     }
 
     const response = await this.send(commandObj, sendOptions);
-    const results = processResponse(
-      commandObj,
-      JSON.parse(response) as unknown,
-    );
-    return results;
+
+    return processResponse(commandObj, JSON.parse(response) as unknown);
   }
 
   protected normalizeChildId(childId: string): string {

@@ -2,7 +2,6 @@
 /* eslint-disable no-console */
 
 import { Command } from '@commander-js/extra-typings';
-import castArray from 'lodash.castarray';
 import type { LogLevelDesc } from 'loglevel';
 import * as tplinkCrypto from 'tplink-smarthome-crypto';
 import type { PickProperties } from 'ts-essentials';
@@ -10,6 +9,7 @@ import util from 'util';
 
 import { type AnyDevice, type SendOptions } from './client';
 import { Client, ResponseError } from './index';
+import { castArray } from './utils';
 
 let logLevel: LogLevelDesc;
 

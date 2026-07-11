@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
-import groupBy from 'lodash.groupby';
 import { DeepPartial } from 'ts-essentials';
 
 import { Client } from '../../src';
-import type { AnyDevice } from '../../src/client';
+import type { AnyDevice } from '../../src';
 
 import type { TestDevice } from './test-device';
 import { testDeviceDecorator } from './test-device';
@@ -167,11 +166,17 @@ const testDevicesPartial: DeepPartial<TestDevices> = {
   },
 };
 
-Object.entries(groupBy(testDevicesPartial.devices, 'deviceType')).forEach(
-  ([key, value]) => {
-    testDevicesPartial[key as 'bulb' | 'plug'] = value;
-  },
-);
+// Group the test devices by `deviceType` (native replacement for lodash.groupby).
+const devicesByType: Partial<
+  Record<string, NonNullable<typeof testDevicesPartial.devices>>
+> = {};
+for (const device of testDevicesPartial.devices ?? []) {
+  const key = String(device?.deviceType);
+  (devicesByType[key] ??= []).push(device);
+}
+Object.entries(devicesByType).forEach(([key, value]) => {
+  testDevicesPartial[key as 'bulb' | 'plug'] = value;
+});
 
 export const testDevices = testDevicesPartial as TestDevices;
 
@@ -219,12 +224,9 @@ export async function testDeviceCleanup(): Promise<void> {
     const device = devices.find((dev) => {
       if (dev.model.substr(0, 5).toLowerCase() !== testDevice.model)
         return false;
-      if (
-        testDevice.hardwareVersion != null &&
-        testDevice.hardwareVersion !== dev.hardwareVersion
-      )
-        return false;
-      return true;
+      return !(testDevice.hardwareVersion != null &&
+        testDevice.hardwareVersion !== dev.hardwareVersion);
+
     });
 
     if (device) {

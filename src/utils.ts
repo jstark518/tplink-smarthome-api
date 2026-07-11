@@ -1,5 +1,29 @@
-import castArray from 'lodash.castarray';
-import get from 'lodash.get';
+/**
+ * Wraps a value in an array if it is not already one.
+ *
+ * Native replacement for `lodash.castarray`.
+ */
+export function castArray<T>(value: T | T[]): T[] {
+  return Array.isArray(value) ? value : [value];
+}
+
+/**
+ * Retrieves the value at `path` of `object`, or `undefined` if any segment is
+ * missing.
+ *
+ * Native replacement for the subset of `lodash.get` used here. A string path is
+ * split on `.`; an array path is used as-is, so each element is treated as a
+ * single literal key (keys that themselves contain dots are not split).
+ */
+function get(object: unknown, path: string | string[]): unknown {
+  const keys = Array.isArray(path) ? path : path.split('.');
+  let current: unknown = object;
+  for (const key of keys) {
+    if (current === undefined || current === null) return undefined;
+    current = (current as Record<string, unknown>)[key];
+  }
+  return current;
+}
 
 export function isObjectLike(
   candidate: unknown,
@@ -140,6 +164,7 @@ function flattenResponses(
  *
  * @param module
  * @param method
+ * @param command
  * @param response
  */
 export function processSingleCommandResponse(
@@ -265,7 +290,7 @@ export function processResponse(
  * Extract `path` from `response` (from `Client#sendCommand`) and run `typeGuardFn`
  *
  * @param response
- * @param path passed to `lodash.get`
+ * @param path path to the value within `response`
  * @param typeGuardFn
  * @returns value of `path` in `response`
  * @throws Error

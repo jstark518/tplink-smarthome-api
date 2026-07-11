@@ -2,7 +2,7 @@ import { prepareEnvironment } from '@gmrchk/cli-testing-library';
 
 import { expect } from './setup';
 
-const runner = 'ts-node';
+const runner = 'tsx';
 const cli = './src/cli.ts';
 
 describe('cli', function () {
@@ -11,6 +11,19 @@ describe('cli', function () {
 
   // @ts-expect-error: buildable
   let { execute, cleanup }: Awaited<ReturnType<typeof prepareEnvironment>> = {};
+
+  // The test process loads tsx via NODE_OPTIONS="--import tsx". That must not
+  // leak into the spawned CLI child: the `tsx` runner sets up its own loader,
+  // and an inherited `--import tsx` fails to resolve from the child's cwd.
+  let savedNodeOptions: string | undefined;
+  before(() => {
+    savedNodeOptions = process.env.NODE_OPTIONS;
+    delete process.env.NODE_OPTIONS;
+  });
+  after(() => {
+    if (savedNodeOptions !== undefined)
+      process.env.NODE_OPTIONS = savedNodeOptions;
+  });
 
   beforeEach(async () => {
     ({ execute, cleanup } = await prepareEnvironment());

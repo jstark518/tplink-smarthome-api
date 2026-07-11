@@ -2,9 +2,5 @@
   "delay": true,
   "extension": ["ts", "js"],
   "recursive": true,
-  "require": [
-    "ts-node/register",
-    "source-map-support/register",
-    "test/setup/hooks.ts"
-  ]
+  "require": ["test/setup/hooks.ts"]
 }

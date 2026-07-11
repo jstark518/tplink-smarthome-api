@@ -1,7 +1,6 @@
 // spell-checker:ignore Mock’s
 import * as simulator from 'tplink-smarthome-simulator';
-import type { Client, PlugSysinfo } from '../../src';
-import type { AnyDevice } from '../../src/client';
+import type { AnyDevice, Client, PlugSysinfo } from '../../src';
 
 type SimulatorDevice = {
   start: () => Promise<unknown>;
@@ -13,12 +12,16 @@ type SimulatorDevice = {
   children: Array<{ sysinfo: { id: string } }>;
 };
 
+function getConnectableHost(address: string): string {
+  return address === '0.0.0.0' ? '127.0.0.1' : address;
+}
+
 async function simulatorToDevice(
   client: Client,
   simulatorDevice: SimulatorDevice,
 ): Promise<AnyDevice> {
   return client.getDevice({
-    host: simulatorDevice.address,
+    host: getConnectableHost(simulatorDevice.address),
     port: simulatorDevice.port,
   });
 }
@@ -47,7 +50,7 @@ export async function getSimulatedUnreliableDevice(
   simulatorDevices.push(device);
   return client.getPlug({
     sysInfo,
-    host: device.address,
+    host: getConnectableHost(device.address),
     port: device.port,
   });
 }

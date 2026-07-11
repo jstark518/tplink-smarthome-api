@@ -1,4 +1,4 @@
-import isEqual from 'lodash.isequal';
+import { isDeepStrictEqual } from 'util';
 
 import type { SendOptions } from '../client';
 import {
@@ -124,7 +124,7 @@ export default class Lighting {
       }
     }
 
-    if (!isEqual(this.lastState.lightState, this.#lightState)) {
+    if (!isDeepStrictEqual(this.lastState.lightState, this.#lightState)) {
       this.device.emit('lightstate-change', this.#lightState);
     }
     this.device.emit('lightstate-update', this.#lightState);

@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import isEqual from 'lodash.isequal';
+import { isDeepStrictEqual } from 'util';
 
 import type { SendOptions } from '../client';
 import Device, {
@@ -464,6 +464,7 @@ class Bulb extends Device {
    *
    * Sends `lightingservice.transition_light_state` command with on_off `value`.
    * @param  value - true: on, false: off
+   * @param sendOptions
    * @throws {@link ResponseError}
    */
   async setPowerState(
@@ -548,7 +549,9 @@ class Bulb extends Device {
       }
     }
 
-    if (!isEqual(this.lastState.sysinfoLightState, sysinfoLightState)) {
+    if (
+      !isDeepStrictEqual(this.lastState.sysinfoLightState, sysinfoLightState)
+    ) {
       this.emit('lightstate-sysinfo-change', sysinfoLightState);
     }
     this.emit('lightstate-sysinfo-update', sysinfoLightState);

@@ -1,4 +1,3 @@
-import clone from 'lodash.clone';
 import type { SendOptions } from '../client';
 import type Device from './index';
 
@@ -16,6 +15,7 @@ export default class Netif {
    * default network timeout to `timeoutInSeconds`.
    * @param  refresh - request device's cached results
    * @param  timeoutInSeconds - timeout for scan in seconds
+   * @param sendOptions - additional options for the request
    * @returns parsed JSON response
    * @throws {@link ResponseError}
    */
@@ -24,7 +24,7 @@ export default class Netif {
     timeoutInSeconds = 10,
     sendOptions?: SendOptions,
   ): Promise<unknown> {
-    const sendOptionsWithTimeout = clone(sendOptions || {});
+    const sendOptionsWithTimeout: SendOptions = { ...sendOptions };
     if (sendOptionsWithTimeout.timeout == null) {
       sendOptionsWithTimeout.timeout =
         timeoutInSeconds * 1000 * 2 +
