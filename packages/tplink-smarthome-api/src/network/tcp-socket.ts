@@ -45,6 +45,8 @@ export default class TcpSocket extends TplinkSocket {
     port: number,
     host: string,
     timeout: number,
+    localAddress?: string,
+    localPort?: number,
   ): Promise<string> {
     return new Promise((resolve, reject) => {
       const { socket } = this;
@@ -167,7 +169,7 @@ export default class TcpSocket extends TplinkSocket {
       this.logDebug(
         `: socket:send attempting to connect. host:${host}, port:${port}`,
       );
-      socket.connect({ port, host }, () => {
+      socket.connect({ port, host, localAddress, localPort }, () => {
         try {
           this.logDebug(
             `: socket:connect ${socket.localAddress} ${socket.localPort} ${socket.remoteAddress} ${socket.remotePort}`,

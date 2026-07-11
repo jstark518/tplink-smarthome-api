@@ -46,13 +46,19 @@ export default abstract class TplinkSocket {
     port: number,
     host: string,
     timeout: number,
+    localAddress?: string,
+    localPort?: number,
   ): Promise<string>;
 
   async send(
     payload: string,
     port: number,
     host: string,
-    { timeout }: { timeout: number },
+    {
+      timeout,
+      localAddress,
+      localPort,
+    }: { timeout: number; localAddress?: string; localPort?: number },
   ): Promise<string> {
     this.log.debug(
       `[${this.socketId}] TplinkSocket(${this.socketType}).send(%j)`,
@@ -62,7 +68,14 @@ export default abstract class TplinkSocket {
     return this.queue
       .add(async () => {
         try {
-          return await this.sendAndGetResponse(payload, port, host, timeout);
+          return await this.sendAndGetResponse(
+            payload,
+            port,
+            host,
+            timeout,
+            localAddress,
+            localPort,
+          );
         } catch (err) {
           this.log.debug(
             `[${this.socketId}] TplinkSocket(${this.socketType}).send()`,
