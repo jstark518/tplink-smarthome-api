@@ -1,0 +1,5 @@
+{
+  "extension": ["ts"],
+  "recursive": true,
+  "spec": "test/**/*.spec.ts"
+}

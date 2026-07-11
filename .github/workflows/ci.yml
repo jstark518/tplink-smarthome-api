@@ -22,12 +22,15 @@ jobs:
           cache: 'npm'
 
       - name: npm install
-        run: |
-          npm ci
+        run: npm ci
+
+      # Build first so the api workspace can type-check against the crypto
+      # workspace's generated declarations.
+      - name: Build
+        run: npm run build
 
       - name: Lint
-        run: |
-          npm run lint
+        run: npm run lint
 
   test:
     name: Build and Test
@@ -66,12 +69,13 @@ jobs:
       - name: Coverage summary
         if: always() && matrix.node-version == '24'
         run: |
-          if [ -f coverage/coverage-summary.json ]; then
+          SUMMARY=packages/tplink-smarthome-api/coverage/coverage-summary.json
+          if [ -f "$SUMMARY" ]; then
             node -e '
-              const t = require("./coverage/coverage-summary.json").total;
+              const t = require("./packages/tplink-smarthome-api/coverage/coverage-summary.json").total;
               const cap = (s) => s[0].toUpperCase() + s.slice(1);
               const row = (k) => `| ${cap(k)} | ${t[k].pct}% | ${t[k].covered}/${t[k].total} |`;
-              const md = ["## Coverage", "", "| Metric | % | Covered / Total |", "| --- | --- | --- |", row("statements"), row("branches"), row("functions"), row("lines"), ""].join("\n");
+              const md = ["## Coverage (tplink-smarthome-api)", "", "| Metric | % | Covered / Total |", "| --- | --- | --- |", row("statements"), row("branches"), row("functions"), row("lines"), ""].join("\n");
               require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, md + "\n");
             '
           else
@@ -83,5 +87,5 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: coverage-lcov
-          path: coverage/lcov.info
+          path: packages/*/coverage/lcov.info
           if-no-files-found: warn

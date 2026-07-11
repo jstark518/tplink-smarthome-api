@@ -1,5 +1,5 @@
 import dgram from 'dgram';
-import { decrypt, encrypt } from 'tplink-smarthome-crypto';
+import { decrypt, encrypt } from '@jstark/tplink-smarthome-crypto';
 
 import { replaceControlCharacters } from '../utils';
 import TplinkSocket from './tplink-socket';

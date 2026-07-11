@@ -1,5 +1,4 @@
-import type { Client } from '../../src';
-import type { AnyDevice } from '../../src/client';
+import type { Client, AnyDevice } from '../../src';
 
 export default async function getDiscoveryDevices(
   client: Client,

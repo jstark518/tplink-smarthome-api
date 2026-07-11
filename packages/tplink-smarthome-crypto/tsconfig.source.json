@@ -1,8 +1,9 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./lib",
-    "allowJs": false
+    "allowJs": false,
+    "noUncheckedIndexedAccess": false
   },
   "include": ["src/**/*"],
   "typedocOptions": {

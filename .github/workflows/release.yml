@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# Serialize releases; don't cancel an in-progress publish.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write # push the "Version Packages" commit / git tags
+  pull-requests: write # open/update the "Version Packages" PR
+  id-token: write # OIDC trusted publishing + build provenance
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use Node.js 24 with npm registry
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      # OIDC trusted publishing requires npm >= 11.5.1.
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # When changesets exist -> opens/updates the "Version Packages" PR.
+      # When that PR is merged (versions bumped, no changesets left) -> publishes
+      # changed packages via `changeset publish` (npm publish per package, OIDC).
+      - name: Create Release PR or publish
+        uses: changesets/action@v1
+        with:
+          version: npm run version
+          publish: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

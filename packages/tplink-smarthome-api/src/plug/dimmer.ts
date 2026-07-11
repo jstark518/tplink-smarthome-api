@@ -63,6 +63,7 @@ export default class Dimmer {
    *
    * Sends `dimmer.set_brightness` command. Does not support childId.
    * @param   brightness - 0-100
+   * @param sendOptions
    * @returns parsed JSON response
    * @throws {@link ResponseError}
    */
