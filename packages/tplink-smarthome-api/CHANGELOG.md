@@ -1,107 +1,113 @@
 # Changelog
 
+## 6.0.1
+
+### Patch Changes
+
+- e66cfb8: Restructure the repository into an npm-workspaces monorepo.
+
+  `@jstark/tplink-smarthome-crypto` is now vendored and published from this repo (a
+  maintained, dependency-free fork of `tplink-smarthome-crypto`), and
+  `@jstark/tplink-smarthome-api` depends on it directly instead of the upstream
+  package. No public API changes.
+
+- 60315e9: Add `localAddress` and `localPort` to `SendOptions` to bind the outgoing TCP
+  socket to a specific local interface/port. On a multi-homed host this lets
+  callers pin which NIC a command is sent from, avoiding `ECONNRESET` when the OS
+  would otherwise route the connection out of an interface on a different subnet.
+  TCP only. Closes #1.
+- Updated dependencies [e66cfb8]
+  - @jstark/tplink-smarthome-crypto@6.0.1
+
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
 ## [5.0.0](https://github.com/plasticrake/tplink-smarthome-api/compare/v4.2.0...v5.0.0) (2023-11-15)
 
-
 ### ⚠ BREAKING CHANGES
 
-* **Device:** `Device#startPolling`, `Device#stopPolling`, and Device/Bulb/Plug event `polling-error` have been removed.
-* Requires minimum node version v16
-* Requires minimum node version v14
+- **Device:** `Device#startPolling`, `Device#stopPolling`, and Device/Bulb/Plug event `polling-error` have been removed.
+- Requires minimum node version v16
+- Requires minimum node version v14
 
-* drop support for node < v14 ([348401a](https://github.com/plasticrake/tplink-smarthome-api/commit/348401afd10a3e6c8a82e3914350bb1d5574b3b2))
-* drop support for node < v16 ([#156](https://github.com/plasticrake/tplink-smarthome-api/issues/156)) ([893b82b](https://github.com/plasticrake/tplink-smarthome-api/commit/893b82bfd6a508ff34f36cfc8f883b498b825d8b))
-
+- drop support for node < v14 ([348401a](https://github.com/plasticrake/tplink-smarthome-api/commit/348401afd10a3e6c8a82e3914350bb1d5574b3b2))
+- drop support for node < v16 ([#156](https://github.com/plasticrake/tplink-smarthome-api/issues/156)) ([893b82b](https://github.com/plasticrake/tplink-smarthome-api/commit/893b82bfd6a508ff34f36cfc8f883b498b825d8b))
 
 ### Features
 
-* **Bulb:** add Bulb#blink method ([#162](https://github.com/plasticrake/tplink-smarthome-api/issues/162)) ([a8dd13d](https://github.com/plasticrake/tplink-smarthome-api/commit/a8dd13dd899f1dae53b43e61e2c97d764ed5b636))
-* catch more invalid discovery messages ([#154](https://github.com/plasticrake/tplink-smarthome-api/issues/154)) ([935d3f3](https://github.com/plasticrake/tplink-smarthome-api/commit/935d3f369fc0c958b59d2b5c8a307b02618d982e))
-* **Device:** remove startPolling, stopPolling, that were previously deprecated ([#157](https://github.com/plasticrake/tplink-smarthome-api/issues/157)) ([513deca](https://github.com/plasticrake/tplink-smarthome-api/commit/513decac9364633b138e459a2d3385231ac476fc))
-
+- **Bulb:** add Bulb#blink method ([#162](https://github.com/plasticrake/tplink-smarthome-api/issues/162)) ([a8dd13d](https://github.com/plasticrake/tplink-smarthome-api/commit/a8dd13dd899f1dae53b43e61e2c97d764ed5b636))
+- catch more invalid discovery messages ([#154](https://github.com/plasticrake/tplink-smarthome-api/issues/154)) ([935d3f3](https://github.com/plasticrake/tplink-smarthome-api/commit/935d3f369fc0c958b59d2b5c8a307b02618d982e))
+- **Device:** remove startPolling, stopPolling, that were previously deprecated ([#157](https://github.com/plasticrake/tplink-smarthome-api/issues/157)) ([513deca](https://github.com/plasticrake/tplink-smarthome-api/commit/513decac9364633b138e459a2d3385231ac476fc))
 
 ### Bug Fixes
 
-* exported type fixes ([fd336b2](https://github.com/plasticrake/tplink-smarthome-api/commit/fd336b20668b926c982e0cee5e83665b65f643ac))
+- exported type fixes ([fd336b2](https://github.com/plasticrake/tplink-smarthome-api/commit/fd336b20668b926c982e0cee5e83665b65f643ac))
 
 ## [4.2.0](https://github.com/plasticrake/tplink-smarthome-api/compare/v4.1.0...v4.2.0) (2022-02-14)
 
-
 ### Features
 
-* **Client:** add devicesUseDiscoveryPort to DiscoveryOptions ([#139](https://github.com/plasticrake/tplink-smarthome-api/issues/139)) ([245dcd8](https://github.com/plasticrake/tplink-smarthome-api/commit/245dcd8d39d94d3721d52b1a287dfd8101422a58)), closes [plasticrake/homebridge-tplink-smarthome#244](https://github.com/plasticrake/homebridge-tplink-smarthome/issues/244) [plasticrake/homebridge-tplink-smarthome#250](https://github.com/plasticrake/homebridge-tplink-smarthome/issues/250)
+- **Client:** add devicesUseDiscoveryPort to DiscoveryOptions ([#139](https://github.com/plasticrake/tplink-smarthome-api/issues/139)) ([245dcd8](https://github.com/plasticrake/tplink-smarthome-api/commit/245dcd8d39d94d3721d52b1a287dfd8101422a58)), closes [plasticrake/homebridge-tplink-smarthome#244](https://github.com/plasticrake/homebridge-tplink-smarthome/issues/244) [plasticrake/homebridge-tplink-smarthome#250](https://github.com/plasticrake/homebridge-tplink-smarthome/issues/250)
 
 ## [4.1.0](https://github.com/plasticrake/tplink-smarthome-api/compare/v4.0.0...v4.1.0) (2022-02-03)
 
-
 ### Features
 
-* **Bulb:** add lightstate-sysinfo events ([6b844a1](https://github.com/plasticrake/tplink-smarthome-api/commit/6b844a178806fc794bc8e04e9d8f3ab1c95d6a5e))
+- **Bulb:** add lightstate-sysinfo events ([6b844a1](https://github.com/plasticrake/tplink-smarthome-api/commit/6b844a178806fc794bc8e04e9d8f3ab1c95d6a5e))
 
 ## [4.0.0](https://github.com/plasticrake/tplink-smarthome-api/compare/v3.3.0...v4.0.0) (2022-02-02)
 
-
 ### ⚠ BREAKING CHANGES
 
-* **Bulb:** removed previously deprecated
-`getColorTemperatureRange`. Use `colorTemperatureRange` instead.
-* apiModules is now non-static property
-* require minimum node version v12.20.0
+- **Bulb:** removed previously deprecated
+  `getColorTemperatureRange`. Use `colorTemperatureRange` instead.
+- apiModules is now non-static property
+- require minimum node version v12.20.0
 
 ### Features
 
-* **Bulb:** removed deprecated getColorTemperatureRange ([3dd442b](https://github.com/plasticrake/tplink-smarthome-api/commit/3dd442b25decfb03656dc9054231ec1c26c8a8a3))
-* add color temp ranges for additional models ([#137](https://github.com/plasticrake/tplink-smarthome-api/issues/137)) ([48eb046](https://github.com/plasticrake/tplink-smarthome-api/commit/48eb046bc9600fa2ec0c857884e5b24b70d3698a))
-* **Plug:** add support for light strips such as KL430 ([874a431](https://github.com/plasticrake/tplink-smarthome-api/commit/874a4314460d90af133daccab2e12c7a10de1a95)), closes [#130](https://github.com/plasticrake/tplink-smarthome-api/issues/130) [#90](https://github.com/plasticrake/tplink-smarthome-api/issues/90)
-* change static property apiModules to non-static ([6a171aa](https://github.com/plasticrake/tplink-smarthome-api/commit/6a171aa4f4f7fb3afdb9697ecc4fca11b6dc617b))
-* **Bulb:** add getLightDetails ([#135](https://github.com/plasticrake/tplink-smarthome-api/issues/135)) ([705392f](https://github.com/plasticrake/tplink-smarthome-api/commit/705392fc65ce0a091f0497974d3dfe7567dec26f)), closes [#92](https://github.com/plasticrake/tplink-smarthome-api/issues/92)
-
+- **Bulb:** removed deprecated getColorTemperatureRange ([3dd442b](https://github.com/plasticrake/tplink-smarthome-api/commit/3dd442b25decfb03656dc9054231ec1c26c8a8a3))
+- add color temp ranges for additional models ([#137](https://github.com/plasticrake/tplink-smarthome-api/issues/137)) ([48eb046](https://github.com/plasticrake/tplink-smarthome-api/commit/48eb046bc9600fa2ec0c857884e5b24b70d3698a))
+- **Plug:** add support for light strips such as KL430 ([874a431](https://github.com/plasticrake/tplink-smarthome-api/commit/874a4314460d90af133daccab2e12c7a10de1a95)), closes [#130](https://github.com/plasticrake/tplink-smarthome-api/issues/130) [#90](https://github.com/plasticrake/tplink-smarthome-api/issues/90)
+- change static property apiModules to non-static ([6a171aa](https://github.com/plasticrake/tplink-smarthome-api/commit/6a171aa4f4f7fb3afdb9697ecc4fca11b6dc617b))
+- **Bulb:** add getLightDetails ([#135](https://github.com/plasticrake/tplink-smarthome-api/issues/135)) ([705392f](https://github.com/plasticrake/tplink-smarthome-api/commit/705392fc65ce0a091f0497974d3dfe7567dec26f)), closes [#92](https://github.com/plasticrake/tplink-smarthome-api/issues/92)
 
 ### Bug Fixes
 
-* cli `TypeError: Found non-callable @[@iterator](https://github.com/iterator)` ([#125](https://github.com/plasticrake/tplink-smarthome-api/issues/125)) ([3e53050](https://github.com/plasticrake/tplink-smarthome-api/commit/3e5305042d5e8d0297ea94a775bbbc65c692ea0b)), closes [#124](https://github.com/plasticrake/tplink-smarthome-api/issues/124)
-* dimmer.setGentle*Time incorrectly named parameter ([db9993f](https://github.com/plasticrake/tplink-smarthome-api/commit/db9993f904bc39c612290c8301c41b5f53aa5772)), closes [#129](https://github.com/plasticrake/tplink-smarthome-api/issues/129)
-* keep socket timer going until close emitted ([416ce38](https://github.com/plasticrake/tplink-smarthome-api/commit/416ce387f28036029a6db73c86b97ba7383c0ebf)), closes [#108](https://github.com/plasticrake/tplink-smarthome-api/issues/108)
+- cli `TypeError: Found non-callable @[@iterator](https://github.com/iterator)` ([#125](https://github.com/plasticrake/tplink-smarthome-api/issues/125)) ([3e53050](https://github.com/plasticrake/tplink-smarthome-api/commit/3e5305042d5e8d0297ea94a775bbbc65c692ea0b)), closes [#124](https://github.com/plasticrake/tplink-smarthome-api/issues/124)
+- dimmer.setGentle*Time incorrectly named parameter ([db9993f](https://github.com/plasticrake/tplink-smarthome-api/commit/db9993f904bc39c612290c8301c41b5f53aa5772)), closes [#129](https://github.com/plasticrake/tplink-smarthome-api/issues/129)
+- keep socket timer going until close emitted ([416ce38](https://github.com/plasticrake/tplink-smarthome-api/commit/416ce387f28036029a6db73c86b97ba7383c0ebf)), closes [#108](https://github.com/plasticrake/tplink-smarthome-api/issues/108)
 
-
-* upgrade commander ([1911aa4](https://github.com/plasticrake/tplink-smarthome-api/commit/1911aa4d033fbe91671f7dc6491bdaa759373e64))
+- upgrade commander ([1911aa4](https://github.com/plasticrake/tplink-smarthome-api/commit/1911aa4d033fbe91671f7dc6491bdaa759373e64))
 
 ## [3.3.0](https://github.com/plasticrake/tplink-smarthome-api/compare/v3.2.1...v3.3.0) (2021-03-01)
 
-
 ### Features
 
-* change emeter#realtime type to RealtimeNormalized ([1645215](https://github.com/plasticrake/tplink-smarthome-api/commit/1645215c4aa44a2b82752969401741c631044ff5))
-* **Plug:** add dimmer.brightness property ([47f28f7](https://github.com/plasticrake/tplink-smarthome-api/commit/47f28f7e403dd993e0a98e8083f863e67ff04618))
-* **Plug:** emit brightness-change & brightness-update ([3fb2897](https://github.com/plasticrake/tplink-smarthome-api/commit/3fb289710f616f88809a7e2c9c6d4f3911d322d5))
-
+- change emeter#realtime type to RealtimeNormalized ([1645215](https://github.com/plasticrake/tplink-smarthome-api/commit/1645215c4aa44a2b82752969401741c631044ff5))
+- **Plug:** add dimmer.brightness property ([47f28f7](https://github.com/plasticrake/tplink-smarthome-api/commit/47f28f7e403dd993e0a98e8083f863e67ff04618))
+- **Plug:** emit brightness-change & brightness-update ([3fb2897](https://github.com/plasticrake/tplink-smarthome-api/commit/3fb289710f616f88809a7e2c9c6d4f3911d322d5))
 
 ### Bug Fixes
 
-* mark startPolling as deprecated ([cc658ec](https://github.com/plasticrake/tplink-smarthome-api/commit/cc658ecb3fc48993d726efbee2b5aa9cc337817d))
+- mark startPolling as deprecated ([cc658ec](https://github.com/plasticrake/tplink-smarthome-api/commit/cc658ecb3fc48993d726efbee2b5aa9cc337817d))
 
 ### [3.2.1](https://github.com/plasticrake/tplink-smarthome-api/compare/v3.2.0...v3.2.1) (2021-02-28)
 
-
 ### Bug Fixes
 
-* rename `getColorTemperatureRange` to `colorTemperatureRange` ([e3664d2](https://github.com/plasticrake/tplink-smarthome-api/commit/e3664d28867ad08801bf6eecf638ae5f4c6f4dac))
+- rename `getColorTemperatureRange` to `colorTemperatureRange` ([e3664d2](https://github.com/plasticrake/tplink-smarthome-api/commit/e3664d28867ad08801bf6eecf638ae5f4c6f4dac))
 
 ## [3.2.0](https://github.com/plasticrake/tplink-smarthome-api/compare/v3.1.0...v3.2.0) (2021-02-28)
 
-
 ### Features
 
-* add EventEmitter types ([db259e9](https://github.com/plasticrake/tplink-smarthome-api/commit/db259e906455f7c9eb749350b8cb81163682e9ca))
-* export types Realtime, RealtimeV1, RealtimeV2 ([f5f020f](https://github.com/plasticrake/tplink-smarthome-api/commit/f5f020f7f7ef2f111a74be5a236db26b2419c906))
-* use standard-version ([#121](https://github.com/plasticrake/tplink-smarthome-api/issues/121)) ([e3a6cca](https://github.com/plasticrake/tplink-smarthome-api/commit/e3a6cca5d31a0f50df05a3ea82cd9463b9c1cfea))
-
+- add EventEmitter types ([db259e9](https://github.com/plasticrake/tplink-smarthome-api/commit/db259e906455f7c9eb749350b8cb81163682e9ca))
+- export types Realtime, RealtimeV1, RealtimeV2 ([f5f020f](https://github.com/plasticrake/tplink-smarthome-api/commit/f5f020f7f7ef2f111a74be5a236db26b2419c906))
+- use standard-version ([#121](https://github.com/plasticrake/tplink-smarthome-api/issues/121)) ([e3a6cca](https://github.com/plasticrake/tplink-smarthome-api/commit/e3a6cca5d31a0f50df05a3ea82cd9463b9c1cfea))
 
 ### Bug Fixes
 
-* **cli:** remove non-functional -c parameter for sendCommand ([c3bfe0e](https://github.com/plasticrake/tplink-smarthome-api/commit/c3bfe0ece3995d82c7655ad86e27a36eec8f48c6)), closes [#94](https://github.com/plasticrake/tplink-smarthome-api/issues/94)
+- **cli:** remove non-functional -c parameter for sendCommand ([c3bfe0e](https://github.com/plasticrake/tplink-smarthome-api/commit/c3bfe0ece3995d82c7655ad86e27a36eec8f48c6)), closes [#94](https://github.com/plasticrake/tplink-smarthome-api/issues/94)
 
 ## 3.1.0 / 2020-10-13
 
