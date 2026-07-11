@@ -2,13 +2,27 @@
 import { isDeepStrictEqual } from 'util';
 
 import type { SendOptions } from '../client';
-import Device, { type CommonSysinfo, type DeviceConstructorOptions, isBulbSysinfo, } from '../device';
+import Device, {
+  type CommonSysinfo,
+  type DeviceConstructorOptions,
+  isBulbSysinfo,
+} from '../device';
 import Cloud, { type CloudInfo, isCloudInfo } from '../shared/cloud';
 import type { Realtime, RealtimeNormalized } from '../shared/emeter';
 import Emeter from '../shared/emeter';
 import Time from '../shared/time';
-import { extractResponse, hasErrCode, type HasErrCode, isObjectLike, objectHasKey, } from '../utils';
-import Lighting, { isLightState, type LightState, type LightStateInput, } from './lighting';
+import {
+  extractResponse,
+  hasErrCode,
+  type HasErrCode,
+  isObjectLike,
+  objectHasKey,
+} from '../utils';
+import Lighting, {
+  isLightState,
+  type LightState,
+  type LightStateInput,
+} from './lighting';
 import Schedule from './schedule';
 
 function isLightStrip(sysinfo: BulbSysinfo) {
