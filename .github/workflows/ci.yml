@@ -10,6 +10,7 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,6 +39,7 @@ jobs:
         os: [ubuntu-latest]
 
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -53,6 +55,7 @@ jobs:
         run: npm install -g npm@${{ matrix.npm-version }}
 
       - name: npm install, build and test
+        timeout-minutes: 12
         run: |
           npm ci
           npm run build
