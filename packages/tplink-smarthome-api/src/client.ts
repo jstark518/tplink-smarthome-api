@@ -150,12 +150,16 @@ export interface DiscoveryOptions {
  * @typeParam transport - 'tcp','udp'
  * @typeParam useSharedSocket - attempt to reuse a shared socket if available, UDP only
  * @typeParam sharedSocketTimeout - (ms) how long to wait for another send before closing a shared socket. 0 = never automatically close socket
+ * @typeParam localAddress - local interface address to bind the outgoing TCP socket to (e.g. to pin a NIC on a multi-homed host). TCP only.
+ * @typeParam localPort - local port to bind the outgoing TCP socket to. TCP only.
  */
 export type SendOptions = {
   timeout?: number;
   transport?: 'tcp' | 'udp';
   useSharedSocket?: boolean;
   sharedSocketTimeout?: number;
+  localAddress?: string;
+  localPort?: number;
 };
 
 export interface ClientEvents {
@@ -232,7 +236,10 @@ declare interface Client {
  */
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 class Client extends EventEmitter {
-  defaultSendOptions: Required<SendOptions> = {
+  defaultSendOptions: Required<
+    Omit<SendOptions, 'localAddress' | 'localPort'>
+  > &
+    Pick<SendOptions, 'localAddress' | 'localPort'> = {
     timeout: 10000,
     transport: 'tcp',
     useSharedSocket: false,

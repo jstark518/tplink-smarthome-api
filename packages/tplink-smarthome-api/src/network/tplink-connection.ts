@@ -59,10 +59,14 @@ export default abstract class TplinkConnection extends EventEmitter {
       timeout,
       useSharedSocket,
       sharedSocketTimeout,
+      localAddress,
+      localPort,
     }: {
       timeout: number;
       useSharedSocket?: boolean;
       sharedSocketTimeout?: number;
+      localAddress?: string;
+      localPort?: number;
     },
   ): Promise<string> {
     this.log.debug(`TplinkConnection(${this.description}).send(%j)`, {
@@ -82,6 +86,8 @@ export default abstract class TplinkConnection extends EventEmitter {
         socket = await this.getSocket(useSharedSocket);
         const response = await socket.send(payload, this.port, this.host, {
           timeout,
+          localAddress,
+          localPort,
         });
         if (!useSharedSocket) {
           socket.close();

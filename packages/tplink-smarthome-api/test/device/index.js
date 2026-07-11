@@ -22,6 +22,24 @@ describe('Device', function () {
   this.slow(config.defaultTestTimeout / 2);
   this.retries(1);
 
+  describe('#send() localAddress option (TCP)', function () {
+    it('binds the outgoing socket to localAddress and still reaches the device', async function () {
+      // localAddress binds the local end of the TCP socket (see #1). Only
+      // meaningful against the loopback simulator.
+      if (!config.useSimulator) this.skip();
+      const testDevice = testDevices.anyDevice;
+      if (!testDevice.getDevice) this.skip();
+
+      const device = await testDevice.getDevice(undefined, {
+        transport: 'tcp',
+        localAddress: '127.0.0.1',
+        timeout: 2000,
+      });
+      await expect(device.getSysInfo()).to.eventually.be.an('object');
+      device.closeConnection();
+    });
+  });
+
   testDevices.devices.forEach((testDevice) => {
     config.testSendOptionsSets.forEach((testSendOptions) => {
       context(testSendOptions.name, function () {
