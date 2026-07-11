@@ -1,14 +1,19 @@
 <!-- markdownlint-disable MD007 MD012 MD033 -->
 
-# tplink-smarthome-api
+# @jstark/tplink-smarthome-api
 
-[![NPM Version](https://img.shields.io/npm/v/tplink-smarthome-api.svg)](https://www.npmjs.com/package/tplink-smarthome-api)
-[![Build Status](https://github.com/plasticrake/tplink-smarthome-api/workflows/CI/badge.svg?branch=main)](https://github.com/plasticrake/tplink-smarthome-api/actions?query=workflow%3ACI+branch%3Amain)
-[![Coverage Status](https://coveralls.io/repos/github/plasticrake/tplink-smarthome-api/badge.svg?branch=master)](https://coveralls.io/github/plasticrake/tplink-smarthome-api?branch=master)
+[![NPM Version](https://img.shields.io/npm/v/@jstark/tplink-smarthome-api.svg)](https://www.npmjs.com/package/@jstark/tplink-smarthome-api)
+[![Build Status](https://github.com/jstark518/tplink-smarthome-api/workflows/CI/badge.svg?branch=main)](https://github.com/jstark518/tplink-smarthome-api/actions?query=workflow%3ACI+branch%3Amain)
 
-TP-Link Smarthome API
+TP-Link Smarthome API — a maintained, lodash-free fork of [plasticrake/tplink-smarthome-api](https://github.com/plasticrake/tplink-smarthome-api). Requires Node.js 22+.
 
-**[Changelog](https://github.com/plasticrake/tplink-smarthome-api/tree/main/CHANGELOG.md)**
+**[Changelog](https://github.com/jstark518/tplink-smarthome-api/tree/main/CHANGELOG.md)**
+
+## Install
+
+```sh
+npm install @jstark/tplink-smarthome-api
+```
 
 ## Known Supported Devices
 
@@ -28,10 +33,10 @@ Many other TP-Link Plug and Bulb models may work as well. Note that Tapo devices
 
 ## Examples
 
-See more [examples](https://github.com/plasticrake/tplink-smarthome-api/tree/main/examples).
+See more [examples](https://github.com/jstark518/tplink-smarthome-api/tree/main/examples).
 
 ```javascript
-const { Client } = require('tplink-smarthome-api');
+const { Client } = require('@jstark/tplink-smarthome-api');
 
 const client = new Client();
 const plug = client.getDevice({ host: '10.0.1.2' }).then((device) => {
@@ -48,11 +53,11 @@ client.startDiscovery().on('device-new', (device) => {
 
 ## CLI
 
-Install the command line utility with `npm install -g tplink-smarthome-api`. Run `tplink-smarthome-api --help` for help.
+Install the command line utility with `npm install -g @jstark/tplink-smarthome-api`. Run `tplink-smarthome-api --help` for help.
 
 ## API
 
-[API docs can be found here.](https://plasticrake.github.io/tplink-smarthome-api/)
+[API docs can be found here.](https://jstark518.github.io/tplink-smarthome-api/)
 
 For functions that send commands, the last argument is `SendOptions` where you can set the `transport` ('tcp','udp') and `timeout`, etc.
 

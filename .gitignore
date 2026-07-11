@@ -1,10 +1,8 @@
 
 build
 
-docs/_site
-docs/Gemfile
-docs/Gemfile.lock
-docs/.sass-cache
+# Generated API docs (typedoc output; built & deployed by the Docs workflow)
+docs/
 
 # Logs
 logs
