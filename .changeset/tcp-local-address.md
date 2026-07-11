@@ -1,5 +1,5 @@
 ---
-'@jstark/tplink-smarthome-api': minor
+'@jstark/tplink-smarthome-api': patch
 ---
 
 Add `localAddress` and `localPort` to `SendOptions` to bind the outgoing TCP
