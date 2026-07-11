@@ -1,0 +1,47 @@
+{
+  "name": "@jstark/tplink-smarthome-crypto",
+  "version": "6.0.0",
+  "description": "Encryption/decryption for TP-Link Smart Home device communication",
+  "keywords": [
+    "tplink",
+    "kasa",
+    "crypto",
+    "encrypt",
+    "decrypt"
+  ],
+  "bugs": {
+    "url": "https://github.com/jstark518/tplink-smarthome-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jstark518/tplink-smarthome-api.git",
+    "directory": "packages/tplink-smarthome-crypto"
+  },
+  "license": "MIT",
+  "author": "Patrick Seal",
+  "type": "commonjs",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "tsc --project tsconfig.source.json",
+    "clean": "rimraf lib/ build/",
+    "docs": "typedoc --tsconfig tsconfig.source.json",
+    "lint": "eslint . --format=pretty && tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "spellcheck": "cspell '{src,test}/**/*' *.md",
+    "pretest": "npm run lint && npm run build",
+    "test": "npm run test:only",
+    "test:ci": "npm run test:only",
+    "test:only": "cross-env NODE_ENV=test NODE_OPTIONS=\"--import tsx\" c8 mocha --color"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

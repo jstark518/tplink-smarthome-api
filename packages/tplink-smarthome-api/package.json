@@ -1,0 +1,60 @@
+{
+  "name": "@jstark/tplink-smarthome-api",
+  "version": "6.0.0",
+  "description": "TP-Link Smart Home API",
+  "keywords": [
+    "tplink",
+    "kasa",
+    "home",
+    "smartplug",
+    "smartswitch",
+    "smartbulb",
+    "api"
+  ],
+  "bugs": {
+    "url": "https://github.com/jstark518/tplink-smarthome-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jstark518/tplink-smarthome-api.git"
+  },
+  "license": "MIT",
+  "author": "Patrick Seal",
+  "type": "commonjs",
+  "main": "./lib/index.js",
+  "bin": {
+    "tplink-smarthome-api": "lib/cli.js"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "tsc --project tsconfig.source.json",
+    "clean": "rimraf lib/ build/",
+    "cli": "tsx src/cli.ts",
+    "docs": "typedoc --tsconfig tsconfig.source.json",
+    "lint": "eslint . --format=pretty && tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "spellcheck": "cspell '{examples,src,test}/**/*' *.md",
+    "pretest": "npm run lint && npm run build",
+    "test": "npm run test:only",
+    "test:ci": "npm run test:only",
+    "test:only": "cross-env NODE_ENV=test NODE_OPTIONS=\"--import tsx\" c8 mocha --color",
+    "lint:fix": "eslint . --format=pretty --fix"
+  },
+  "dependencies": {
+    "@commander-js/extra-typings": "~11.1.0",
+    "commander": "~11.1.0",
+    "loglevel": "^1.8.1",
+    "promise-queue": "^2.2.5",
+    "@jstark/tplink-smarthome-crypto": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

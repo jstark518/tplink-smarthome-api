@@ -27,5 +27,6 @@ node_modules
 
 .vscode
 
-/lib
+# Build output (per-package in the monorepo)
+lib/
 

@@ -3,20 +3,20 @@ import { isDeepStrictEqual } from 'util';
 
 import type { SendOptions } from '../client';
 import Device, {
-  isBulbSysinfo,
   type CommonSysinfo,
   type DeviceConstructorOptions,
+  isBulbSysinfo,
 } from '../device';
-import Cloud, { isCloudInfo, type CloudInfo } from '../shared/cloud';
+import Cloud, { type CloudInfo, isCloudInfo } from '../shared/cloud';
 import type { Realtime, RealtimeNormalized } from '../shared/emeter';
 import Emeter from '../shared/emeter';
 import Time from '../shared/time';
 import {
   extractResponse,
   hasErrCode,
+  type HasErrCode,
   isObjectLike,
   objectHasKey,
-  type HasErrCode,
 } from '../utils';
 import Lighting, {
   isLightState,
@@ -404,12 +404,11 @@ class Bulb extends Device {
     );
     this.setSysInfo(sysinfo);
 
-    const cloudInfo = extractResponse<CloudInfo & HasErrCode>(
+    this.cloud.info = extractResponse<CloudInfo & HasErrCode>(
       data,
       [this.apiModules.cloud, 'get_info'],
       (c) => isCloudInfo(c) && hasErrCode(c),
     );
-    this.cloud.info = cloudInfo;
 
     const emeterKey = this.apiModules.emeter;
     if (
@@ -425,19 +424,17 @@ class Bulb extends Device {
       this.emeter.setRealtime(realtime);
     }
 
-    const scheduleNextAction = extractResponse<HasErrCode>(
+    this.schedule.nextAction = extractResponse<HasErrCode>(
       data,
       [this.apiModules.schedule, 'get_next_action'],
       hasErrCode,
     );
-    this.schedule.nextAction = scheduleNextAction;
 
-    const lightState = extractResponse<LightState>(
+    this.lighting.lightState = extractResponse<LightState>(
       data,
       [this.apiModules.lightingservice, 'get_light_state'],
       isLightState,
     );
-    this.lighting.lightState = lightState;
 
     return {
       sysInfo: this.sysInfo,

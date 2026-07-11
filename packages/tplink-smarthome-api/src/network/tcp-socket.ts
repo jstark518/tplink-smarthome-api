@@ -1,5 +1,5 @@
 import net from 'net';
-import { encryptWithHeader, decrypt } from 'tplink-smarthome-crypto';
+import { encryptWithHeader, decrypt } from '@jstark/tplink-smarthome-crypto';
 
 import TplinkSocket from './tplink-socket';
 import { replaceControlCharacters } from '../utils';

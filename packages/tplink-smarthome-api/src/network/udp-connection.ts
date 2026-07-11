@@ -67,13 +67,11 @@ export default class UdpConnection extends TplinkConnection {
       this.setTimeout(sharedSocketTimeout);
     }
 
-    const response = await super.send(payload, port, host, {
+    return super.send(payload, port, host, {
       timeout,
       useSharedSocket,
       sharedSocketTimeout,
     });
-
-    return response;
   }
 
   override close(): void {

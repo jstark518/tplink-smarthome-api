@@ -3,7 +3,7 @@
 const sinon = require('sinon');
 const dgram = require('dgram');
 const EventEmitter = require('events');
-const { encrypt } = require('tplink-smarthome-crypto');
+const { encrypt } = require('@jstark/tplink-smarthome-crypto');
 
 const { config, expect, getTestClient, testDevices } = require('./setup');
 

@@ -7,7 +7,7 @@ import globals from 'globals';
 
 export default tseslint.config(
   {
-    ignores: ['lib/**', 'build/**', 'docs/**', 'coverage/**'],
+    ignores: ['**/lib/**', '**/build/**', '**/docs/**', '**/coverage/**'],
   },
 
   js.configs.recommended,
@@ -80,9 +80,9 @@ export default tseslint.config(
     },
   },
 
-  // Test files.
+  // Test files (in any package).
   {
-    files: ['test/**'],
+    files: ['**/test/**'],
     languageOptions: { globals: { ...globals.mocha } },
     rules: {
       'func-names': 'off',
@@ -93,7 +93,7 @@ export default tseslint.config(
 
   // Examples may log to the console.
   {
-    files: ['examples/**'],
+    files: ['**/examples/**'],
     rules: { 'no-console': 'off' },
   },
 

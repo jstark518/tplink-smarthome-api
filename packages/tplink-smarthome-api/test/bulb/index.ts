@@ -2,7 +2,7 @@ import assert from 'assert';
 import sinon from 'sinon';
 
 import type { Bulb, LightStateInput } from '../../src';
-import { AnyDevice } from '../../src/client';
+import { AnyDevice } from '../../src';
 
 import { config, expect, retry, testDevices } from '../setup';
 

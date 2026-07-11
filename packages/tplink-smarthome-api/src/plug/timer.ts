@@ -50,6 +50,7 @@ export default class Timer {
    * @param  {boolean}     [options.enable=true]         rule enabled
    * @param  {boolean}     [options.deleteExisting=true] send `delete_all_rules` command before adding
 
+   * @param sendOptions
    * @returns parsed JSON response
    * @throws {@link ResponseError}
    */
@@ -91,6 +92,7 @@ export default class Timer {
    * @param  {string}      [options.name='timer']    rule name
    * @param  {Boolean}     [options.enable=true]     rule enabled
    *
+   * @param sendOptions
    * @returns parsed JSON response
    * @throws {@link ResponseError}
    */

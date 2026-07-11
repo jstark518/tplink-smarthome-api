@@ -579,6 +579,7 @@ class Plug extends Device {
    *
    * Sends `system.set_led_off` command.
    * @param   value - LED State, true === on
+   * @param sendOptions
    * @throws {@link ResponseError}
    */
   async setLedState(value: boolean, sendOptions?: SendOptions): Promise<true> {

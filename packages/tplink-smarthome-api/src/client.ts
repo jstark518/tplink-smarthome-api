@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import util from 'util';
 
 import type log from 'loglevel';
-import { decrypt, encrypt } from 'tplink-smarthome-crypto';
+import { decrypt, encrypt } from '@jstark/tplink-smarthome-crypto';
 import type { MarkOptional } from 'ts-essentials';
 
 import Bulb from './bulb';

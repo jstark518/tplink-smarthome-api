@@ -3,7 +3,7 @@
 
 import { Command } from '@commander-js/extra-typings';
 import type { LogLevelDesc } from 'loglevel';
-import * as tplinkCrypto from 'tplink-smarthome-crypto';
+import * as tplinkCrypto from '@jstark/tplink-smarthome-crypto';
 import type { PickProperties } from 'ts-essentials';
 import util from 'util';
 
