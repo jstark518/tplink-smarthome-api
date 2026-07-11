@@ -39,7 +39,6 @@
     "cli": "tsx src/cli.ts",
     "docs": "typedoc --tsconfig tsconfig.source.json",
     "lint": "eslint . --format=pretty && tsc --noEmit",
-    "prepublishOnly": "npm run build",
     "spellcheck": "cspell '{examples,src,test}/**/*' *.md",
     "pretest": "npm run lint && npm run build",
     "test": "npm run test:only",
