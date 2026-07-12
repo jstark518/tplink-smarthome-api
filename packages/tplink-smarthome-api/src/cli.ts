@@ -396,10 +396,11 @@ for (const command of commandSetup) {
     cmd.option('-c, --childId <childId>', 'childId');
   }
 
-  cmd.action(function action(this: Command) {
-    const [host, ...params] = this.args;
+  cmd.action((...args: unknown[]) => {
+    const thisCmd = args.at(-1) as Command;
+    const [host, ...params] = thisCmd.args;
     const [hostOnly, port] = parseHost(host as string);
-    const options = this.opts() as { timeout?: number; childId?: string };
+    const options = thisCmd.opts() as { timeout?: number; childId?: string };
 
     const commandParams = setParamTypes(params, command);
 

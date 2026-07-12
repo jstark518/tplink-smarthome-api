@@ -47,7 +47,7 @@
     "lint:fix": "eslint . --format=pretty --fix"
   },
   "dependencies": {
-    "@commander-js/extra-typings": "~11.1.0",
+    "@commander-js/extra-typings": "~15.0.0",
     "commander": "~15.0.0",
     "loglevel": "^1.8.1",
     "promise-queue": "^2.2.5",
