@@ -82,7 +82,7 @@ console.log(`testClientLogLevel: %O`, testClientLogLevel);
 console.log(`useSimulator: %O`, useSimulator);
 console.log(`discoveryTimeout: %O`, discoveryTimeout);
 console.log(`discoveryMacAllow: %O`, discoveryMacAllow);
-console.log(`cloudUsername: %O`, cloudUsername);
+console.log(`cloudUsername: %O`, cloudUsername.length > 0 ? '*'.repeat(8) : '');
 console.log(`cloudPassword: %O`, cloudPassword.length > 0 ? '*'.repeat(8) : '');
 console.log(`cloudServerUrl: %O`, cloudServerUrl);
 console.log('defaultTestTimeout: %O', defaultTestTimeout);
