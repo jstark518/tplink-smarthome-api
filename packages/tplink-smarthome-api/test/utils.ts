@@ -1,8 +1,12 @@
-const { expect } = require('./setup');
+import { expect } from './setup';
 
-const { compareMac, processResponse, ResponseError } = require('../src/utils');
+import { compareMac, processResponse, ResponseError } from '../src/utils';
 
-const compareMacTests = [
+const compareMacTests: {
+  mac: string;
+  pattern: string | string[];
+  expected: boolean;
+}[] = [
   {
     mac: '',
     pattern: '',
@@ -199,7 +203,10 @@ describe('Utils', function () {
           },
         },
       };
-      const pr = processResponse(command, response);
+      const pr = processResponse(command, response) as {
+        emeter: { get_realtime: Record<string, unknown> };
+        system: { get_sysinfo: Record<string, unknown> };
+      };
       expect(pr).to.have.keys('emeter', 'system');
       expect(pr.emeter.get_realtime).to.have.keys(
         'current',

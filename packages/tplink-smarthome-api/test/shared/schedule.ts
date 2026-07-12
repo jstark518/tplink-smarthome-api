@@ -1,7 +1,10 @@
 /* eslint no-unused-expressions: [off] */
 
-const { expect } = require('../setup');
-const { createRule } = require('../../src/shared/schedule');
+import { expect } from '../setup';
+import { createRule } from '../../src/shared/schedule';
+
+import type { AnyDevice } from '../../src';
+import type { TestDevice } from '../setup/test-device';
 
 const today = new Date();
 const todayYear = today.getFullYear();
@@ -10,7 +13,11 @@ const todayDay = today.getDate();
 const todayWday = [false, false, false, false, false, false, false];
 todayWday[today.getDay()] = true;
 
-const scheduleTests = [
+const scheduleTests: {
+  name: string;
+  args: Parameters<typeof createRule>[0];
+  expected: Record<string, unknown>;
+}[] = [
   {
     name: 'start as Date',
     args: { start: new Date(2017, 9, 14, 20, 4, 40) },
@@ -143,18 +150,22 @@ describe('Schedule', function () {
   });
 });
 
-module.exports = function (ctx, testDevice) {
+export default function (
+  ctx: { device?: AnyDevice },
+  testDevice: TestDevice,
+): void {
   describe('Schedule', function () {
-    let device;
-    let month;
-    let year;
+    let device: AnyDevice;
+    let month: number;
+    let year: number;
 
     beforeEach('Schedule', async function () {
-      device = ctx.device;
+      device = ctx.device as AnyDevice;
       await device.schedule.deleteAllRules();
     });
 
-    before('Schedule', async function () {
+    before('Schedule', function () {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- runtime value may be undefined even though the type marks it required
       if (!testDevice.getDevice) this.skip();
 
       month = today.getMonth() + 1;
@@ -200,11 +211,19 @@ module.exports = function (ctx, testDevice) {
           mode: 'customize_preset',
           on_off: 1,
         };
-        const addResponse = await device.schedule.addRule({
+        // device.schedule is a Plug|Bulb union; call addRule via a permissive
+        // signature so both schedule variants accept this combined rule.
+        const addRule = device.schedule.addRule.bind(
+          device.schedule,
+        ) as unknown as (rule: Record<string, unknown>) => Promise<unknown>;
+        const addResponse = (await addRule({
           powerState: true,
           lightState,
           start: 60,
-        });
+        })) as {
+          err_code: number;
+          id: string;
+        };
         expect(addResponse, 'addRule').to.have.property('err_code', 0);
         expect(addResponse, 'addRule').to.have.property('id');
 
@@ -251,7 +270,7 @@ module.exports = function (ctx, testDevice) {
 
     describe('#eraseStats()', function () {
       it('should return day stats', function () {
-        if (testDevice.type !== 'simulated') this.skip();
+        if ((testDevice as { type?: string }).type !== 'simulated') this.skip();
         return expect(device.schedule.eraseStats()).to.eventually.have.property(
           'err_code',
           0,
@@ -259,4 +278,4 @@ module.exports = function (ctx, testDevice) {
       });
     });
   });
-};
+}

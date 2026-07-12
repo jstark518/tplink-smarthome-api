@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-expressions */
 
-const sinon = require('sinon');
-const { config, expect, retry, testDevices } = require('../setup');
+import sinon from 'sinon';
+import { config, expect, retry, testDevices } from '../setup';
 
-const awayTests = require('./away');
-const dimmerTests = require('./dimmer');
-const scheduleTests = require('./schedule');
-const timerTests = require('./timer');
+import type { Plug } from '../../src';
+
+import awayTests from './away';
+import dimmerTests from './dimmer';
+import scheduleTests from './schedule';
+import timerTests from './timer';
 
 describe('Plug', function () {
   this.timeout(config.defaultTestTimeout);
@@ -20,8 +22,9 @@ describe('Plug', function () {
         context(`${testDevice.name} children`, function () {
           this.retries(0); // retries break the children pre state check
 
-          beforeEach('plug children', async function () {
+          beforeEach('plug children', function () {
             // before() doesn't skip nested describes
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- runtime value may be undefined even though the type marks it required
             if (!testDevice.getDevice) this.skip();
 
             // otherChildrenPreState = await testDevice.getOtherChildrenState();
@@ -32,19 +35,22 @@ describe('Plug', function () {
           //   expect(currentState).to.eql(otherChildrenPreState);
           // });
 
-          async function eachChild(fn) {
-            for (const child of testDevice.children) {
+          async function eachChild(
+            fn: (childPlug: Plug) => Promise<void>,
+          ): Promise<void> {
+            for (const child of testDevice.children ?? []) {
               // eslint-disable-next-line no-await-in-loop
-              const otherChildrenPreState = await child.getOtherChildrenState();
+              const otherChildrenPreState =
+                await child.getOtherChildrenState?.();
               // eslint-disable-next-line no-await-in-loop
-              const childPlug = await child.getDevice(
+              const childPlug = (await child.getDevice(
                 undefined,
                 testSendOptions,
-              );
+              )) as Plug;
               // eslint-disable-next-line no-await-in-loop
               await fn(childPlug);
               // eslint-disable-next-line no-await-in-loop
-              const currentState = await child.getOtherChildrenState();
+              const currentState = await child.getOtherChildrenState?.();
               expect(currentState).to.eql(otherChildrenPreState);
             }
           }
@@ -100,27 +106,30 @@ describe('Plug', function () {
       testDevices.plug.forEach((testDevice) => {
         context(testDevice.name, function () {
           this.retries(1);
-          let plug;
-          const ctx = {};
+          let plug: Plug;
+          const ctx: { device?: Plug } = {};
 
           before('plug', async function () {
             this.timeout(20000);
             if (!('getDevice' in testDevice)) this.skip();
 
             await retry(async () => {
-              plug = await testDevice.getDevice(undefined, testSendOptions);
+              plug = (await testDevice.getDevice(
+                undefined,
+                testSendOptions,
+              )) as Plug;
               ctx.device = plug;
             }, 2);
           });
 
-          beforeEach('plug', async function () {
+          beforeEach('plug', function () {
             // before() doesn't skip nested describes
             if (!('getDevice' in testDevice)) this.skip();
           });
 
           describe('#supportsEmeter', function () {
             it('should be true for hs110, hs300 and false for other plugs', function () {
-              if (plug.model.match(/^HS(110|300)/)) {
+              if (/^HS(110|300)/.exec(plug.model)) {
                 expect(plug.supportsEmeter).to.be.true;
               } else {
                 expect(plug.supportsEmeter).to.be.false;
@@ -357,12 +366,12 @@ describe('Plug', function () {
             });
           });
 
-          awayTests(ctx, testDevice);
+          awayTests(ctx);
           if (testDevice.model === 'hs220') {
-            dimmerTests(ctx, testDevice);
+            dimmerTests(ctx);
           }
           scheduleTests(ctx, testDevice);
-          timerTests(ctx, testDevice);
+          timerTests(ctx);
         });
       });
     });
