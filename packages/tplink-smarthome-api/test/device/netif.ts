@@ -1,11 +1,13 @@
-const { config, expect } = require('../setup');
+import { config, expect } from '../setup';
 
-module.exports = function (ctx) {
+import type { AnyDevice } from '../../src';
+
+export default function (ctx: { device?: AnyDevice }): void {
   describe('Netif', function () {
-    let device;
+    let device: AnyDevice;
 
-    beforeEach('Away', async function () {
-      device = ctx.device;
+    beforeEach('Away', function () {
+      device = ctx.device as AnyDevice;
     });
 
     describe('#getScanInfo() @slow', function () {
@@ -24,4 +26,4 @@ module.exports = function (ctx) {
       });
     });
   });
-};
+}

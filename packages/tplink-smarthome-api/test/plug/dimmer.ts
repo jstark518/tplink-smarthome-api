@@ -1,15 +1,17 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-await-in-loop */
 
-const sinon = require('sinon');
-const { expect } = require('../setup');
+import sinon from 'sinon';
+import { expect } from '../setup';
 
-module.exports = function (ctx) {
+import type { Plug } from '../../src';
+
+export default function (ctx: { device?: Plug }): void {
   describe('Dimmer', function () {
-    let device;
+    let device: Plug;
 
-    beforeEach('Dimmer', async function () {
-      device = ctx.device;
+    beforeEach('Dimmer', function () {
+      device = ctx.device as Plug;
     });
 
     describe('#brightness get', function () {
@@ -239,4 +241,4 @@ module.exports = function (ctx) {
       });
     });
   });
-};
+}

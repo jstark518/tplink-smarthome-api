@@ -1,23 +1,30 @@
 /* eslint-disable no-unused-expressions */
 
-const sinon = require('sinon');
-const { expect } = require('../setup');
+import sinon from 'sinon';
+import { expect } from '../setup';
 
-const { ResponseError } = require('../../src');
+import type { AnyDevice, RealtimeNormalized } from '../../src';
+import { ResponseError } from '../../src';
 
-module.exports = function (ctx, testDevice) {
+import type { TestDevice } from '../setup/test-device';
+
+export default function (
+  ctx: { device?: AnyDevice; supportsEmeter?: boolean },
+  testDevice: TestDevice,
+): void {
   describe('Emeter', function () {
-    let device;
-    let month;
-    let year;
-    let supportsEmeter;
+    let device: AnyDevice;
+    let month: number;
+    let year: number;
+    let supportsEmeter: boolean | undefined;
 
-    beforeEach('Emeter', async function () {
-      device = ctx.device;
+    beforeEach('Emeter', function () {
+      device = ctx.device as AnyDevice;
       supportsEmeter = ctx.supportsEmeter;
     });
 
-    before('Emeter', async function () {
+    before('Emeter', function () {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- runtime value may be undefined even though the type marks it required
       if (!testDevice.getDevice) this.skip();
 
       const today = new Date();
@@ -35,20 +42,27 @@ module.exports = function (ctx, testDevice) {
     describe('#getRealtime()', function () {
       it('should return Realtime if supported or throw error', async function () {
         if (supportsEmeter) {
-          return expect(
-            device.emeter.getRealtime(),
-          ).to.eventually.have.property('err_code', 0);
+          await expect(device.emeter.getRealtime()).to.eventually.have.property(
+            'err_code',
+            0,
+          );
+          return;
         }
-        return expect(
-          device.emeter.getRealtime(),
-        ).to.eventually.be.rejectedWith(ResponseError);
+        await expect(device.emeter.getRealtime()).to.eventually.be.rejectedWith(
+          ResponseError,
+        );
       });
       it('should emit emeter-realtime-update if supported', async function () {
         if (!supportsEmeter) return;
 
         const spy = sinon.spy();
 
-        device.on('emeter-realtime-update', spy);
+        (
+          device.on as (
+            event: string,
+            listener: (...args: unknown[]) => void,
+          ) => unknown
+        )('emeter-realtime-update', spy);
         await device.emeter.getRealtime();
         await device.emeter.getRealtime();
 
@@ -57,13 +71,16 @@ module.exports = function (ctx, testDevice) {
       });
       it('should return Realtime normalized with old and new API', async function () {
         if (supportsEmeter) {
-          const response = await device.emeter.getRealtime();
+          const response =
+            (await device.emeter.getRealtime()) as RealtimeNormalized & {
+              err_code: number;
+            };
           expect(response).to.have.property('err_code', 0);
           if (response.current != null || response.current_ma != null) {
             expect(response).to.have.property('current');
             expect(response).to.have.property('current_ma');
             expect(response.current, 'current').to.be.closeTo(
-              response.current_ma / 1000,
+              (response.current_ma ?? 0) / 1000,
               1,
             );
           }
@@ -71,7 +88,7 @@ module.exports = function (ctx, testDevice) {
             expect(response).to.have.property('power');
             expect(response).to.have.property('power_mw');
             expect(response.power, 'power').to.be.closeTo(
-              response.power_mw / 1000,
+              (response.power_mw ?? 0) / 1000,
               1,
             );
           }
@@ -79,7 +96,7 @@ module.exports = function (ctx, testDevice) {
             expect(response).to.have.property('total');
             expect(response).to.have.property('total_wh');
             expect(response.total, 'total').to.be.closeTo(
-              response.total_wh / 1000,
+              (response.total_wh ?? 0) / 1000,
               1,
             );
           }
@@ -87,16 +104,15 @@ module.exports = function (ctx, testDevice) {
             expect(response).to.have.property('voltage');
             expect(response).to.have.property('voltage_mv');
             expect(response.voltage, 'voltage').to.be.closeTo(
-              response.voltage_mv / 1000,
+              (response.voltage_mv ?? 0) / 1000,
               1,
             );
           }
         } else {
-          return expect(
+          await expect(
             device.emeter.getRealtime(),
           ).to.eventually.be.rejectedWith(ResponseError);
         }
-        return null;
       });
     });
 
@@ -128,7 +144,7 @@ module.exports = function (ctx, testDevice) {
 
     describe('#eraseStats()', function () {
       it('(simulated only) should erase stats', function () {
-        if (testDevice.type !== 'simulated') this.skip();
+        if ((testDevice as { type?: string }).type !== 'simulated') this.skip();
         if (supportsEmeter) {
           return expect(device.emeter.eraseStats()).to.eventually.have.property(
             'err_code',
@@ -141,4 +157,4 @@ module.exports = function (ctx, testDevice) {
       });
     });
   });
-};
+}

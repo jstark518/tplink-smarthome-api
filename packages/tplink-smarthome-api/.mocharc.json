@@ -1,6 +1,6 @@
 {
   "delay": true,
-  "extension": ["ts", "js"],
+  "extension": ["ts"],
   "recursive": true,
   "require": ["test/setup/hooks.ts"]
 }

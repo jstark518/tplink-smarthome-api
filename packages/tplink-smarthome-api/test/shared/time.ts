@@ -1,11 +1,13 @@
-const { expect } = require('../setup');
+import { expect } from '../setup';
 
-module.exports = function (ctx) {
+import type { AnyDevice } from '../../src';
+
+export default function (ctx: { device?: AnyDevice }): void {
   describe('Time', function () {
-    let device;
+    let device: AnyDevice;
 
-    beforeEach('Time', async function () {
-      device = ctx.device;
+    beforeEach('Time', function () {
+      device = ctx.device as AnyDevice;
     });
 
     describe('#getTime()', function () {
@@ -26,4 +28,4 @@ module.exports = function (ctx) {
       });
     });
   });
-};
+}

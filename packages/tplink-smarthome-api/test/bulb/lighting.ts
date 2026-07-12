@@ -1,23 +1,25 @@
 /* eslint-disable no-unused-expressions */
 
-const sinon = require('sinon');
-const { config, expect } = require('../setup');
+import sinon from 'sinon';
+import { config, expect } from '../setup';
 
-module.exports = function (ctx) {
+import type { AnyDevice, Bulb, LightStateInput } from '../../src';
+
+export default function (ctx: { device?: AnyDevice }): void {
   describe('Lighting', function () {
-    let device;
+    let device: Bulb;
 
-    beforeEach('Lighting', async function () {
-      device = ctx.device;
+    beforeEach('Lighting', function () {
+      device = ctx.device as Bulb;
     });
 
-    describe('#setLightState()', async function () {
+    describe('#setLightState()', function () {
       it('should turn on', async function () {
         expect(
           await device.lighting.setLightState({
             on_off: true,
             ignore_default: true,
-          }),
+          } as unknown as LightStateInput),
         ).to.be.true;
         expect(await device.lighting.getLightState()).to.have.property(
           'on_off',
@@ -30,7 +32,7 @@ module.exports = function (ctx) {
           await device.lighting.setLightState({
             on_off: false,
             transition_period: 100,
-          }),
+          } as unknown as LightStateInput),
         ).to.be.true;
         expect(await device.lighting.getLightState()).to.have.property(
           'on_off',
@@ -187,7 +189,10 @@ module.exports = function (ctx) {
 
         await device.lighting.getLightState();
         await device.lighting.getLightState();
-        device.lighting.lastState.lightState.on_off = 1;
+        device.lighting.lastState.lightState = {
+          ...device.lighting.lastState.lightState,
+          on_off: 1,
+        };
         device.lighting.lastState.powerOn = true;
         await device.lighting.getLightState();
         await device.lighting.getLightState();
@@ -218,4 +223,4 @@ module.exports = function (ctx) {
       });
     });
   });
-};
+}

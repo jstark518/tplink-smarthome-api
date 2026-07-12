@@ -1,18 +1,11 @@
-const sinon = require('sinon');
+import sinon from 'sinon';
 
-const {
-  config,
-  expect,
-  getTestClient,
-  testDevices,
-  useSimulator,
-} = require('./setup');
+import { config, expect, getTestClient, testDevices } from './setup';
 
-const { default: Client } = require('../src/client');
+import Client from '../src/client';
+import Device from '../src/device';
 
-const Device = require('../src/device').default;
-
-if (useSimulator) this.retry(1);
+import type { TestDevice } from './setup/test-device';
 
 describe('Test Environment Setup', function () {
   describe('getTestClient()', function () {
@@ -22,7 +15,7 @@ describe('Test Environment Setup', function () {
     });
   });
 
-  function deviceIsOk(contextName, testDevice) {
+  function deviceIsOk(contextName: string, testDevice: TestDevice): void {
     context(contextName, function () {
       it('should have a device', function () {
         expect(testDevice.getDevice, 'function').to.exist.and.be.an.instanceof(
@@ -42,7 +35,9 @@ describe('Test Environment Setup', function () {
         config.testSendOptionsSets.forEach(function (testSendOptions) {
           context(testSendOptions.name, function () {
             it('should create device with sendOptions', async function () {
-              const tso = { ...testSendOptions };
+              const tso: Partial<typeof testSendOptions> = {
+                ...testSendOptions,
+              };
               delete tso.name;
               const device = await testDevice.getDevice(undefined, tso);
               expect(device.defaultSendOptions).to.deep.include(tso);
@@ -58,21 +53,21 @@ describe('Test Environment Setup', function () {
       deviceIsOk(testDevice.name, testDevice);
     });
 
-    ['anyDevice', 'anyPlug', 'anyBulb'].forEach((deviceKey) => {
+    (['anyDevice', 'anyPlug', 'anyBulb'] as const).forEach((deviceKey) => {
       deviceIsOk(deviceKey, testDevices[deviceKey]);
     });
 
-    ['plugWithChildren'].forEach((deviceKey) => {
+    (['plugWithChildren'] as const).forEach((deviceKey) => {
       deviceIsOk(deviceKey, testDevices[deviceKey]);
 
       context('children', function () {
         it('should be an array with at least one item', function () {
-          expect(testDevices[deviceKey].children.length).to.be.above(0);
+          expect(testDevices[deviceKey].children?.length).to.be.above(0);
         });
       });
 
       it('should be an array with at least one item', function () {
-        testDevices[deviceKey].children.forEach((d) => {
+        testDevices[deviceKey].children?.forEach((d) => {
           deviceIsOk(deviceKey, d);
 
           expect(d, 'should have childId').to.have.property('childId');
@@ -81,7 +76,7 @@ describe('Test Environment Setup', function () {
     });
 
     context('unreliable', function () {
-      let testDevice;
+      let testDevice: TestDevice;
       before(function () {
         testDevice = testDevices.unreliable;
       });
