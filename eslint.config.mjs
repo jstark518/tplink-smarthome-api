@@ -1,6 +1,6 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import importPlugin from 'eslint-plugin-import';
+import importPlugin from 'eslint-plugin-import-x';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import tsdoc from 'eslint-plugin-tsdoc';
 import globals from 'globals';
@@ -14,7 +14,7 @@ export default tseslint.config(
   importPlugin.flatConfigs.recommended,
   {
     // Default imports of packages that also expose named exports (e.g. sinon).
-    rules: { 'import/no-named-as-default-member': 'off' },
+    rules: { 'import-x/no-named-as-default-member': 'off' },
   },
 
   // TypeScript sources — type-aware strict rules.
@@ -33,8 +33,8 @@ export default tseslint.config(
       'tsdoc/syntax': 'off',
       'no-void': 'off',
       // TypeScript resolves imports itself (verified by `tsc --noEmit`).
-      'import/no-unresolved': 'off',
-      'import/extensions': 'off',
+      'import-x/no-unresolved': 'off',
+      'import-x/extensions': 'off',
       '@typescript-eslint/ban-ts-comment': [
         'error',
         {
@@ -64,7 +64,7 @@ export default tseslint.config(
       sourceType: 'module',
       globals: { ...globals.node },
     },
-    rules: { 'import/no-unresolved': 'off' },
+    rules: { 'import-x/no-unresolved': 'off' },
   },
 
   // Plain JavaScript (tests, examples) — no type-aware rules.
@@ -75,8 +75,8 @@ export default tseslint.config(
       globals: { ...globals.node },
     },
     rules: {
-      'import/no-unresolved': 'off',
-      'import/extensions': 'off',
+      'import-x/no-unresolved': 'off',
+      'import-x/extensions': 'off',
     },
   },
 

@@ -104,7 +104,7 @@ function createScheduleDate(
   date: ScheduleRuleInputTime,
   startOrEnd: 'start' | 'end',
 ): ScheduleDateStart | ScheduleDateEnd {
-  let min = 0;
+  let min: number;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   let time_opt = 0;
 
