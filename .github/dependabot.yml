@@ -8,6 +8,26 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
+    # Pin the toolchain to its supported major line and let Dependabot keep
+    # offering the safe minor/patch updates within it. These majors aren't
+    # adoptable yet; revisit (and drop the ignore) as the blockers clear.
+    ignore:
+      # typescript 7 is the native-compiler preview and removes options we
+      # still use (moduleResolution=node10). Stay on 5.x → Dependabot offers
+      # the latest 5.x, which also provides the newer lib types @types/node
+      # needs. See #26.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # @types/node should track the minimum supported Node, not the newest
+      # release; hold the major until the TypeScript bump lands. See #26.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # eslint 10 is blocked by eslint-plugin-import (no ^10 peer yet). Hold the
+      # eslint toolchain on 9.x until the plugin catches up. See #25.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
     groups:
       # ESLint toolchain is peer-locked: @eslint/js@10 requires eslint@10,
       # typescript-eslint tracks a supported eslint range, and the plugins
