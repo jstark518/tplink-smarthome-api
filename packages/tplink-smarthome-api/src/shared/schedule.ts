@@ -215,8 +215,7 @@ export function createRule({
     sched.repeat = false;
   }
 
-  return sched as MarkRequired<Partial<ScheduleRule>, 'wday' | 'repeat'> &
-    ScheduleDateStart;
+  return sched;
 }
 
 export default abstract class Schedule {
