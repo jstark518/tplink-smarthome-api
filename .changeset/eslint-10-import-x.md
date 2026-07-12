@@ -1,4 +1,5 @@
 ---
+'@jstark/tplink-smarthome-api': patch
 ---
 
 Upgrade ESLint toolchain to v10 and replace `eslint-plugin-import` with the

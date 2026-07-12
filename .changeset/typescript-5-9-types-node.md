@@ -1,4 +1,5 @@
 ---
+'@jstark/tplink-smarthome-api': patch
 ---
 
 Adopt `typescript` 5.9.x and `@types/node` ^22, and remove dead
