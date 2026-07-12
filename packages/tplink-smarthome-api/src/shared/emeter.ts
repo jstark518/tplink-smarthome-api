@@ -58,9 +58,9 @@ export default class Emeter {
     ): void => {
       const r = normRealtime;
       if (typeof r[key1] === 'number' && r[key2] === undefined) {
-        r[key2] = Math.floor((r[key1] as number) * multiplier);
+        r[key2] = Math.floor(r[key1] * multiplier);
       } else if (r[key1] == null && typeof r[key2] === 'number') {
-        r[key1] = (r[key2] as number) / multiplier;
+        r[key1] = r[key2] / multiplier;
       }
     };
 

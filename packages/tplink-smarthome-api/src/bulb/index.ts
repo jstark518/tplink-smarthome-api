@@ -416,10 +416,8 @@ class Bulb extends Device {
       objectHasKey(data, emeterKey) &&
       isObjectLike(data[emeterKey]) &&
       objectHasKey(data[emeterKey], 'get_realtime') &&
-      // @ts-expect-error: limitation of TS type checking
       isObjectLike(data[emeterKey].get_realtime)
     ) {
-      // @ts-expect-error: limitation of TS type checking
       const realtime = data[emeterKey].get_realtime as Realtime;
       this.emeter.setRealtime(realtime);
     }
