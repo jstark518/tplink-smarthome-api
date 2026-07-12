@@ -51,7 +51,7 @@
     "sinon": "^22.0.0",
     "sinon-chai": "^4.0.1",
     "tplink-smarthome-simulator": "^5.0.1",
-    "ts-essentials": "^9.4.1",
+    "ts-essentials": "^10.2.1",
     "tsx": "^4.23.0",
     "typedoc": "^0.28.20",
     "typedoc-plugin-no-inherit": "^1.6.1",
