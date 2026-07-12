@@ -22,16 +22,10 @@ updates:
       # release; hold the major until the TypeScript bump lands. See #26.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
-      # eslint 10 is blocked by eslint-plugin-import (no ^10 peer yet). Hold the
-      # eslint toolchain on 9.x until the plugin catches up. See #25.
-      - dependency-name: "eslint"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@eslint/js"
-        update-types: ["version-update:semver-major"]
     groups:
       # ESLint toolchain is peer-locked: @eslint/js@10 requires eslint@10,
       # typescript-eslint tracks a supported eslint range, and the plugins
-      # (import, prettier, tsdoc) follow. Group across ALL update types so a
+      # (import-x, prettier, tsdoc) follow. Group across ALL update types so a
       # major never lands half-applied and breaks peer resolution.
       eslint:
         patterns:

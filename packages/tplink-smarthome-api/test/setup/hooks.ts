@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export, no-console */
+/* eslint-disable import-x/prefer-default-export, no-console */
 import { testDeviceCleanup } from './test-device-setup';
 
 export const mochaHooks = {

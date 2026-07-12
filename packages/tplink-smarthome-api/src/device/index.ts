@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import type log from 'loglevel';
 
 import type { BulbSysinfo } from '../bulb';
-import type { default as Client, SendOptions } from '../client'; // eslint-disable-line import/no-named-default
+import type { default as Client, SendOptions } from '../client'; // eslint-disable-line import-x/no-named-default
 import type { Logger } from '../logger';
 import TcpConnection from '../network/tcp-connection';
 import UdpConnection from '../network/udp-connection';
