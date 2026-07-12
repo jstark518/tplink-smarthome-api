@@ -1,5 +1,30 @@
 # Changelog
 
+## 6.0.2
+
+### Patch Changes
+
+- 52f68e7: Add Dependabot for npm (grouped dev-dependency updates) and GitHub Actions.
+- 66a30b3: Bump `@commander-js/extra-typings` to 15.x to realign with the already-merged
+  `commander@15`, and adapt the dynamic `cli.ts` action handler to v15's stricter
+  typed callback signature.
+- 8032a44: Group peer-locked Dependabot updates (ESLint toolchain, commander + its typings)
+  so version-locked companions bump together across all update types.
+- 85c3f93: Add a CI workflow that requires a changeset on every non-bot PR.
+- 3b5c6c2: Upgrade the ESLint toolchain to v10 and replace `eslint-plugin-import` with the
+  maintained `eslint-plugin-import-x` fork (the former has no eslint@10 peer
+  support).
+- ebed70c: Pin blocked Dependabot toolchain majors (typescript, @types/node, eslint,
+  @eslint/js) to their supported lines so Dependabot keeps offering safe
+  minor/patch updates.
+- aca7c4f: Bump the `ts-essentials` dev-dependency to v10 and drop a redundant
+  `MarkRequired` type assertion in `schedule.ts` that v10 makes unnecessary.
+- 03ab24e: Adopt `typescript` 5.9.x and `@types/node` ^22 across the workspace, and remove
+  dead `@ts-expect-error` directives and redundant type assertions that TS 5.9
+  proves unnecessary.
+- Updated dependencies [03ab24e]
+  - @jstark/tplink-smarthome-crypto@6.0.2
+
 ## 6.0.1
 
 ### Patch Changes
