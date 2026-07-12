@@ -1,5 +1,13 @@
 # @jstark/tplink-smarthome-crypto
 
+## 6.0.2
+
+### Patch Changes
+
+- 03ab24e: Adopt `typescript` 5.9.x and `@types/node` ^22 across the workspace, and remove
+  dead `@ts-expect-error` directives and redundant type assertions that TS 5.9
+  proves unnecessary.
+
 ## 6.0.1
 
 ### Patch Changes

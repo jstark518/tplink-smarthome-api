@@ -1,6 +1,6 @@
 {
   "name": "@jstark/tplink-smarthome-api",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "TP-Link Smart Home API",
   "keywords": [
     "tplink",
@@ -51,7 +51,7 @@
     "commander": "~15.0.0",
     "loglevel": "^1.8.1",
     "promise-queue": "^2.2.5",
-    "@jstark/tplink-smarthome-crypto": "^6.0.1"
+    "@jstark/tplink-smarthome-crypto": "^6.0.2"
   },
   "engines": {
     "node": ">=22"
