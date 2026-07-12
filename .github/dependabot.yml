@@ -1,0 +1,31 @@
+version: 2
+
+updates:
+  # npm — the root manifest plus every workspace (there's a single root
+  # package-lock.json, so Dependabot updates all workspaces from "/").
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      # Fold the dev-tooling churn (eslint, typescript-eslint, prettier, mocha,
+      # chai, tsx, c8, typedoc, @types/*, …) into one PR. Dev-dependency MAJOR
+      # bumps still open individually so they get a proper look. Production
+      # dependencies (commander, loglevel, promise-queue) are intentionally left
+      # ungrouped — each warrants its own changeset/release.
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions used across the workflows — one grouped PR.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
