@@ -138,7 +138,7 @@ function flattenResponses(
           results.push({
             module,
             method: key,
-            response: response[key] as Record<string, unknown>, // using cast, this is TS bug or limitation. isObjectLike above assures type safety
+            response: response[key],
           });
         } else {
           results.push({ module, response });
@@ -188,7 +188,7 @@ export function processSingleCommandResponse(
     throw new ResponseError('Module not found in response', response, command);
   }
 
-  const moduleResponse = responseObj[module] as Record<string, unknown>;
+  const moduleResponse = responseObj[module];
   if (!(method in moduleResponse) || moduleResponse[method] === undefined) {
     throw new ResponseError('Method not found in response', response, command, [
       module,
