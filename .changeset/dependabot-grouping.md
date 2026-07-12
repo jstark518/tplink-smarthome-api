@@ -1,4 +1,5 @@
 ---
+'@jstark/tplink-smarthome-api': patch
 ---
 
 Group peer-locked Dependabot updates (ESLint toolchain, commander + its typings)

@@ -1,4 +1,5 @@
 ---
+'@jstark/tplink-smarthome-api': patch
 ---
 
 Bump the `ts-essentials` dev-dependency to v10 and drop a redundant

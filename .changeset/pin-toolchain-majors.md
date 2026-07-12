@@ -1,4 +1,5 @@
 ---
+'@jstark/tplink-smarthome-api': patch
 ---
 
 Pin blocked Dependabot toolchain majors (typescript, @types/node, eslint,

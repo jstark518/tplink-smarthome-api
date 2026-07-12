@@ -1,0 +1,44 @@
+name: Changeset
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  changeset:
+    name: Changeset present
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Bots (Dependabot, github-actions' Version Packages PR, …) can't author
+      # changesets — pass immediately so this stays green when marked required.
+      - name: Skip for bots
+        id: bot
+        run: |
+          if [[ "${{ github.actor }}" == *'[bot]' ]]; then
+            echo "Actor '${{ github.actor }}' is a bot — changeset not required."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v7
+        if: steps.bot.outputs.skip != 'true'
+        with:
+          fetch-depth: 0
+
+      - name: Verify a changeset was added
+        if: steps.bot.outputs.skip != 'true'
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          added=$(git diff --name-only --diff-filter=A "$BASE...$HEAD" -- '.changeset/*.md' \
+            | grep -vx '.changeset/README.md' || true)
+          if [ -z "$added" ]; then
+            echo "::error::This PR adds no changeset. Run 'npx changeset' to add one." \
+                 "An empty changeset (\`---\\n---\`) is fine for changes that don't affect the published packages (CI, docs, internal type-only cleanups)."
+            exit 1
+          fi
+          printf 'Changeset(s) added:\n%s\n' "$added"
