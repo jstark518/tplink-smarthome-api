@@ -9,11 +9,29 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     groups:
-      # Fold the dev-tooling churn (eslint, typescript-eslint, prettier, mocha,
-      # chai, tsx, c8, typedoc, @types/*, …) into one PR. Dev-dependency MAJOR
-      # bumps still open individually so they get a proper look. Production
-      # dependencies (commander, loglevel, promise-queue) are intentionally left
-      # ungrouped — each warrants its own changeset/release.
+      # ESLint toolchain is peer-locked: @eslint/js@10 requires eslint@10,
+      # typescript-eslint tracks a supported eslint range, and the plugins
+      # (import, prettier, tsdoc) follow. Group across ALL update types so a
+      # major never lands half-applied and breaks peer resolution.
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/*"
+          - "eslint-*"
+          - "@eslint-community/*"
+          - "typescript-eslint"
+          - "@typescript-eslint/*"
+      # commander and its typed companion @commander-js/extra-typings are
+      # versioned in lockstep (extra-typings pins a matching commander major).
+      # Group across all update types so they bump together.
+      commander:
+        patterns:
+          - "commander"
+          - "@commander-js/*"
+      # Everything else dev: fold routine minor/patch churn into one PR. Dev
+      # majors not matched by a group above still open individually for review.
+      # Production deps outside the commander group (loglevel, promise-queue)
+      # stay ungrouped — each warrants its own changeset/release.
       dev-dependencies:
         dependency-type: "development"
         update-types:
