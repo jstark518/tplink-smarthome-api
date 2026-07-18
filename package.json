@@ -56,7 +56,7 @@
     "typedoc": "^0.28.20",
     "typedoc-plugin-no-inherit": "^1.6.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "^8.63.0"
+    "typescript-eslint": "^8.64.0"
   },
   "engines": {
     "node": ">=22"
