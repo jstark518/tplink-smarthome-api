@@ -44,7 +44,7 @@ jobs:
       # When that PR is merged (versions bumped, no changesets left) -> publishes
       # changed packages via `changeset publish` (npm publish per package, OIDC).
       - name: Create Release PR or publish
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           version: npm run version
           publish: npm run release
