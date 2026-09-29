@@ -1,5 +1,27 @@
 # Changelog
 
+## 6.0.3
+
+### Patch Changes
+
+- 88e1928: Add a DevSkim GitHub Actions workflow (`.github/workflows/devskim.yml`) that
+  runs static security analysis on pushes and pull requests to `main` and on a
+  weekly schedule, uploading results to the GitHub Security tab. This is a
+  CI/security tooling addition only; there is no runtime code change.
+- adfb987: Add an explicit top-level `permissions` block to the CI workflow
+  (`contents: read`, `actions: read`) so all jobs default to
+  least-privilege `GITHUB_TOKEN` scopes. This addresses a GitHub code
+  scanning alert about workflows without explicit permissions and is a
+  CI/security hardening change only; there is no runtime code change.
+- f701f00: Convert the remaining JavaScript (mocha test specs + examples) to TypeScript so
+  they are type-checked under `tsc` alongside the already-typed `src/`. Lock this
+  in by reducing `.mocharc` `extension` to `["ts"]` and setting `allowJs: false`.
+- 941dc1c: Mask `cloudUsername` in test setup log output (`test/setup/config.ts`),
+  matching the existing password-redaction pattern, instead of printing it in
+  clear text. This addresses a code scanning alert about clear-text logging of
+  sensitive information. This only affects test-only log output; there is no
+  change to runtime behavior.
+
 ## 6.0.2
 
 ### Patch Changes
