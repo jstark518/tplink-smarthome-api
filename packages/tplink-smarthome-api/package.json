@@ -47,8 +47,8 @@
     "lint:fix": "eslint . --format=pretty --fix"
   },
   "dependencies": {
-    "@commander-js/extra-typings": "~15.0.0",
-    "commander": "~15.0.0",
+    "@commander-js/extra-typings": "~15.1.0",
+    "commander": "~15.1.0",
     "loglevel": "^1.8.1",
     "promise-queue": "^2.2.5",
     "@jstark/tplink-smarthome-crypto": "^6.0.2"
